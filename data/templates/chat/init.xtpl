@@ -1,0 +1,18 @@
+{insert name=xml_header}
+<gateway container="{$container}">
+  <scripts>
+    <toload src="{$JS_LOCATION}/ChatController.js"/>
+    <postload>
+      <![CDATA[
+        ChatController.main('{$WEB_LOCATION}', {$key}, '{$container}');
+
+        chatc.setLast({$last});
+      ]]>
+    </postload>
+  </scripts>
+  <content>
+    <![CDATA[
+    {include file="chat.tpl"}
+    ]]>
+  </content>
+</gateway>

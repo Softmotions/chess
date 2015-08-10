@@ -1,0 +1,10 @@
+{insert name=xml_header}
+<gateway container="frequest">
+  <scripts>
+    <postload><![CDATA[
+    ]]></postload>
+  </scripts>
+  <content><![CDATA[
+    {include file="requests.tpl"}
+  ]]></content>
+</gateway>

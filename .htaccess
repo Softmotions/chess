@@ -1,0 +1,16 @@
+AddDefaultCharset utf-8
+DirectoryIndex index.php
+
+RewriteEngine on
+RewriteBase /
+
+#RewriteRule ^([_a-zA-Z0-9]+)/{0,1}$ index.php?action=$1  [QSA,L]
+#RewriteRule ^(\.[_a-zA-Z0-9]+)/{0,1}$ index.php?_action=$1 [QSA,L]
+
+RewriteCond %{REQUEST_URI} !^\/utils.*$
+
+RewriteRule ^([a-zA-Z0-9]+)/{0,1}$ executor.php?_executor=$1 [QSA,L]
+RewriteRule ^\.([_a-zA-Z0-9]+)/{0,1}$ executor.php?_executor=&_action=$1 [QSA,L]
+
+RewriteRule ^([a-zA-Z0-9]+)/([_a-zA-Z0-9]+)/{0,1}$ executor.php?_executor=$1&action=$2  [QSA,L]
+RewriteRule ^([a-zA-Z0-9]+)/\.([_a-zA-Z0-9]+)/{0,1}$ executor.php?_executor=$1&_action=$2 [QSA,L]

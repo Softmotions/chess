@@ -1,0 +1,4 @@
+{if !$url}
+{assign var="url" value="$WEB_ROOT"}
+{/if}
+{insert name=header content="Location: $url"}

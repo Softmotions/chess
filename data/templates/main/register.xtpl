@@ -1,0 +1,56 @@
+{insert name=xml_header}
+<gateway container="main">
+  <scripts>
+    <postload><![CDATA[
+      auth_register = function() {ldelim}
+        rqd.doGateWayRequest(
+          '{$WEB_LOCATION}',
+          'register',
+          {ldelim}
+            login: $( 'r_login' ).value,
+            email: $( 'r_email' ).value,
+            password: $( 'r_password' ).value,
+            cpassword: $( 'r_cpassword' ).value
+          {rdelim}
+        );
+      {rdelim}
+
+      $( 'r_login' ).focus();
+
+      $( 'chess-login' ).childElements().each(function(element){ldelim}element.remove(){rdelim});
+    ]]></postload>
+  </scripts>
+  <content><![CDATA[
+    <form onsubmit="auth_register(); return false;">
+      <table>
+        <tr>
+          <td>Login:</td>
+          <td><input id="r_login" value="{$login}"/></td>
+        </tr>
+        <tr>
+          <td>E-Mail:</td>
+          <td><input id="r_email" value="{$email}"/></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input id="r_password" type="password"/></td>
+        </tr>
+        <tr>
+          <td>Confirm password:</td>
+          <td><input id="r_cpassword" type="password"/></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="submit" value="Зарегистрироваться"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+    {include file="../error_report.tpl"}
+    <br/>
+    <a href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}.login'); return false;">Войти</a><br/>
+    <br/>
+    <a href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}.reactivate'); return false;">Не получил письмо активации</a><br/>
+  ]]>
+  </content>
+</gateway>

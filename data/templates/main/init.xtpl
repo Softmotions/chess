@@ -1,0 +1,21 @@
+{insert name=xml_header}
+<gateway container="chess-login">
+  <scripts>
+    <postload><![CDATA[
+      rqd.doGateWayRequest( '{$wroot}.index' );
+    ]]></postload>
+  </scripts>
+  <content>
+  <![CDATA[
+          <div id="loginouter">
+            <h1 style="text-align: right;">Добро пожаловать, {$user->getLogin()}!</h1>
+
+            <div style="height: 100%;">
+      <a style="vertical-align: bottom;" href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}logout'); return false;" style="float: right">Выйти</a>
+
+            </div>
+          </div>
+
+  ]]>
+  </content>
+</gateway>

@@ -1,0 +1,4 @@
+{insert name=xml_header}
+<gateway container="{$container}">
+  <content><![CDATA[Stub, Executor: '{$executor}']]></content>
+</gateway>

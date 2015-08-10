@@ -1,0 +1,50 @@
+{insert name=xml_header}
+<gateway container="chess-login">
+  <scripts>
+    <postload><![CDATA[
+      auth_login = function() {ldelim}
+        rqd.doGateWayRequest(
+          '{$WEB_LOCATION}',
+          'login',
+          {ldelim}
+            login: $( 'login' ).value,
+            password: $( 'password' ).value
+          {rdelim}
+        );
+      {rdelim}
+
+      if ( $( 'login' ).value && $( 'login' ).value != '' ) {ldelim}
+        $( 'password' ).focus();
+      {rdelim} else {ldelim}
+        $( 'login' ).focus();
+      {rdelim}
+
+      {if !$user}
+      window.top.__chessUserLogin = undefined;
+      {/if}
+
+      rqd.doGateWayRequest( '{$wroot}.index' );
+    ]]></postload>
+  </scripts>
+  <content>
+  <![CDATA[
+    <div id="loginouter">
+      <form onsubmit="auth_login(); return false;">
+        <div id="loginbox">
+          <h1>Войти в игру</h1>
+          {*<p>Already a member? Sign in Below.*}
+            <input type="text" size="30" id="login" name="login" value="{$login}"/>
+            <input type="password" size="30" id="password" name="password"/>
+            <input type="image" src="images/style/loginbutton.gif" id="loginbutton" value="Войти" onclink="auth_login(); return false;">
+          </p>
+        </div>
+      </form>
+      {if $activateneed}
+      <a href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}.reactivate'); return false;">Не получил письмо активации</a><br/>
+      {/if}
+      <a href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}.register'); return false;">Зарегистрироваться</a><br/>
+    </div>
+    {include file="../error_report.tpl"}
+  ]]>
+  </content>
+</gateway>

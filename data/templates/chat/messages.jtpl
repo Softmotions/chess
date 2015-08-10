@@ -1,0 +1,16 @@
+{insert name=json_header}
+{ldelim}
+  messages: [
+  {foreach from="$messages" item="message"}
+  {ldelim}
+    id: {$message->getId()},
+    key: {$message->getKey()},
+    {dataloader->formatHHMMSS time=$message->getTime() assign=time}
+    time: '{$time}',
+    {dataloader->getUser id=$message->getUserId() assign=user}
+    user: '{$user->getLogin()}',
+    message: '{$message->getMessage()|escape:'quotes'}'
+  {rdelim},
+  {/foreach}
+  ]
+{rdelim}

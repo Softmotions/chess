@@ -1,0 +1,66 @@
+{insert name=xml_header}
+<gateway container="{$container}">
+  <scripts>
+    <toload src="{$JS_LOCATION}/FightController.js"></toload>
+    {if $board}
+    {if $board->isActive() == 1}
+    {if $board->getRPlayer() == $board->getPlayer()}
+    <postload>
+      <![CDATA[
+      FightController.main( '{$WEB_LOCATION}', {$board->getId()}, '{$container}' );
+      var move;
+      {foreach from=$moves item=item}
+      move = {ldelim}
+        x: {$item.start.x},
+        y: {$item.start.y},
+        moves: [
+      {foreach from=$item.moves key=key item=move}
+      {ldelim}
+        x: {$move.x},
+        y: {$move.y},
+        type: '{$move.type}'
+      {rdelim},
+      {/foreach}
+      ]
+      {rdelim};
+      fc.initMoveData( move );
+      {/foreach}
+
+      alert('Ваш ход!');
+      ]]>
+    </postload>
+    {else}
+    <postload>
+      <![CDATA[
+        new PeriodicalExecuter(
+          function(pe) {ldelim}
+            pe.stop();
+            if (!window.top.__chessUserLogin) {ldelim}
+              return;
+            {rdelim}
+
+            rqd.doGateWayRequest( '{$WEB_LOCATION}', 'load', {ldelim} fightId: {$board->getId()}, container: '{$container}' {rdelim} );
+          {rdelim},
+          1
+        );
+      ]]>
+    </postload>
+    {/if}
+    {elseif !$board->isAttached()}
+    <postload>
+      <![CDATA[
+        window.close();
+      ]]>
+    </postload>
+    {/if}
+    {/if}
+  </scripts>
+  <content>
+  <![CDATA[
+  {include file="../error_report.tpl"}
+  {if $board}
+  {include file="board.tpl"}
+  {/if}
+  ]]>
+  </content>
+</gateway>

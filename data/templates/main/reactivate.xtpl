@@ -1,0 +1,37 @@
+{insert name=xml_header}
+<gateway container="main">
+  <scripts>
+    <postload><![CDATA[
+      auth_reactivate = function() {ldelim}
+        rqd.doGateWayRequest(
+          '{$WEB_LOCATION}',
+          'reactivate',
+          {ldelim}
+            email: $( 'email' ).value
+          {rdelim}
+        );
+      {rdelim}
+
+      $( 'login' ).focus();
+    ]]></postload>
+  </scripts>
+  <content><![CDATA[
+    <form onsubmit="auth_reactivate(); return false;">
+      <table>
+        <tr>
+          <td>E-Mail:</td>
+          <td><input id="email" value="{$email}"/></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="submit" value="Повторить активацию"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+    {include file="../error_report.tpl"}
+    <br/>
+    <a href="" onclick="rqd.doGateWayRequest('{$WEB_LOCATION}.login'); return false;">Войти</a><br/>
+  ]]>
+  </content>
+</gateway>

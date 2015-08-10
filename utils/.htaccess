@@ -1,0 +1,7 @@
+AddDefaultCharset utf-8
+DirectoryIndex index.php
+
+AuthName "Chess Restricted Access"
+AuthType Basic
+AuthUserFile /usr/local/tveprojects/chess/src/www/utils/.htpasswd
+require valid-user

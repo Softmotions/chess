@@ -1,0 +1,64 @@
+{insert name=xml_header}
+<gateway container="{$container}">
+  <scripts>
+    <postload>
+      <![CDATA[
+        var container = $( '{$container}' );
+        window.openFightTab = function ( fightId ) {ldelim}
+          var parameter;
+          var form = document.createElement( 'form' );
+
+          container.appendChild( form );
+
+          parameter = document.createElement( 'input' );
+
+          parameter.type = 'hidden';
+          parameter.name = 'redirect';
+          parameter.value = '{$WEB_ROOT}main/.fight';
+          form.appendChild( parameter );
+
+          parameter = document.createElement( 'input' );
+
+          parameter.type = 'hidden';
+          parameter.name = 'fightId';
+          parameter.value = fightId;
+          form.appendChild( parameter );
+
+          form.action = '{$WEB_ROOT}';
+          form.method = 'post';
+          form.target = '_blank';
+          form.submit();
+
+          container.removeChild( form );
+        {rdelim};
+
+        new PeriodicalExecuter(
+          function(pe) {ldelim}
+            pe.stop();
+            if (!window.top.__chessUserLogin) {ldelim}
+              return;
+            {rdelim}
+
+            rqd.doGateWayRequest( '{$WEB_LOCATION}.active' );
+          {rdelim},
+          5
+        );
+      ]]>
+    </postload>
+  </scripts>
+  <content>
+  <![CDATA[
+  Текущие партии:<br/>
+  {include file="../error_report.tpl"}
+  {foreach from="$fights" item="board"}
+  {dataloader->getUser id=$board->getFplId() assign=fpl}
+  {dataloader->getUser id=$board->getSplId() assign=spl}
+  {$fpl->getLogin()} vs {$spl->getLogin()}
+  {if $board->getFplId() == $user->getId() || $board->getSplId() == $user->getId()}
+  <a href="" onclick="openFightTab({$board->getId()}); return false;">открыть</a>
+  {/if}
+  <br/>
+  {/foreach}
+  ]]>
+  </content>
+</gateway>

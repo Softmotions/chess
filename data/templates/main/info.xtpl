@@ -1,0 +1,10 @@
+{insert name=xml_header}
+<gateway container="main">
+  <scripts>
+  </scripts>
+  <content>
+    <![CDATA[
+    бла-бла-бла
+    ]]>
+  </content>
+</gateway>
